@@ -16,6 +16,5 @@ crewai
 langgraph
 farm-haystack
 unstructured
-stripe
 resend
 slowapi

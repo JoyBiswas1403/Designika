@@ -10,7 +10,6 @@ import openai
 import json
 import logging
 from config import settings
-from services.wallet_service import ensure_wallet_exists
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
@@ -246,14 +245,7 @@ ASSISTANT_FUNCTIONS = [
     },
 
     # ──────── INTELLIGENCE ────────
-    {
-        "type": "function",
-        "function": {
-            "name": "get_credits",
-            "description": "Check the user's credit balance. Use when user asks about credits, balance, or how many generations they have left.",
-            "parameters": {"type": "object", "properties": {}}
-        }
-    },
+
     {
         "type": "function",
         "function": {
@@ -443,7 +435,7 @@ FULL LIST OF YOUR 29 CAPABILITIES — use functions aggressively:
 - toggle_fullscreen: Toggle fullscreen mode
 
 🧠 INTELLIGENCE
-- get_credits: Check credit balance
+
 - analyze_room: Analyze a room photo (full, furniture, color, style, improvement)
 - remember_preference: Remember what the user likes/dislikes
 - recall_preferences: Recall stored preferences
@@ -555,11 +547,8 @@ async def process_assistant(request: AssistantRequest):
                 actions.append(action)
 
                 # Build reply for each action
-                if fn_name == "get_credits" and request.user_id:
-                    wallet_info = ensure_wallet_exists(request.user_id)
-                    reply_parts.append(f"You have {wallet_info['balance']} credits remaining.")
 
-                elif fn_name == "remember_preference":
+                if fn_name == "remember_preference":
                     pref = fn_args.get("preference", "")
                     reply_parts.append(f"I'll remember that: {pref}")
 

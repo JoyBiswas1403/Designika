@@ -14,7 +14,6 @@ import uuid
 from database import get_db
 from config import settings
 from models import User
-from services.wallet_service import ensure_wallet_exists
 
 router = APIRouter()
 
@@ -73,8 +72,6 @@ def register(req: RegisterRequest, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(user)
 
-    # Create wallet with 5 free credits
-    ensure_wallet_exists(user_id)
 
     # Generate token
     token = create_access_token(user_id, req.email, req.username)

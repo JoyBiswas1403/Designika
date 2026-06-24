@@ -17,7 +17,6 @@
 | 🪄 **Magic Eraser** | Intelligently remove unwanted clutter using **Inpainting** models. |
 | 🧠 **Designika AI Assistant** | A floating AI consultant powered by **GPT-4o / Gemini** — it *sees* your room and suggests furniture, palettes, and layouts in rich Markdown. |
 | 💬 **Rich Chat** | Receive design advice with formatted text, bullet points, and organized lists. |
-| 💳 **Credit Wallet & Payments** | Stripe-powered pay-per-generation system with wallet top-ups and transaction history. |
 | 🤖 **Agent Brain** | Multi-agent orchestration with LangGraph, CrewAI, and memory (Mem0) for intelligent workflows. |
 | 📂 **Design Gallery & History** | Browse inspiration and revisit all your past transformations. |
 | 🔐 **JWT Auth** | Secure local authentication with bcrypt hashing and token-based sessions. |
@@ -57,10 +56,6 @@ graph TD
         BE_PY -->|ORM| SQLite[(SQLite / PostgreSQL)]
     end
 
-    subgraph "Infrastructure"
-        BE_PY -->|Payments| Stripe[Stripe API]
-    end
-
     classDef ai fill:#f9f,stroke:#333,stroke-width:2px;
     class OpenAI,Gemini,Replicate ai;
 ```
@@ -95,7 +90,6 @@ graph TD
 | **LiteLLM** | Unified LLM gateway (OpenAI, Gemini, etc.) |
 | **CrewAI + LangGraph** | Multi-agent orchestration |
 | **Mem0** | Persistent AI memory (Local) |
-| **Stripe** | Payment processing |
 | **SlowAPI** | Rate limiting (Local Memory) |
 | **Resend** | Transactional emails |
 
@@ -116,7 +110,7 @@ interior-design-ai/
 │   ├── main.py                 # App entry point (v2.3.0)
 │   ├── config.py               # Centralized settings (Environment variables)
 │   ├── database.py             # SQLAlchemy engine & session
-│   ├── models.py               # User, Design, Wallet, Transaction models
+│   ├── models.py               # User, Design models
 │   ├── routers/                # API Route handlers
 │   │   ├── auth.py             #   JWT Login / Register
 │   │   ├── transform.py        #   Image restyling (ControlNet)
@@ -125,15 +119,12 @@ interior-design-ai/
 │   │   ├── design.py           #   Design CRUD
 │   │   ├── users.py            #   User profiles
 │   │   ├── agent.py            #   Agent Brain (LangGraph)
-│   │   ├── payments.py         #   Stripe payments
 │   │   └── assistant.py        #   AI Assistant (26K LOC)
 │   ├── services/               # Business Logic
 │   │   ├── ai_service.py       #   Replicate + ControlNet
 │   │   ├── llm_gateway.py      #   LiteLLM unified gateway
 │   │   ├── memory_service.py   #   Mem0 persistent memory
 │   │   ├── rag_service.py      #   RAG pipeline (Haystack)
-│   │   ├── stripe_service.py   #   Payment processing
-│   │   ├── wallet_service.py   #   Credit wallet system
 │   │   ├── email_service.py    #   Resend emails
 │   │   └── storage.py          #   File uploads
 │   ├── utils/                  # Clients & Helpers
@@ -270,12 +261,6 @@ NODE_ENV=development
 | Method | Endpoint | Description |
 | :--- | :--- | :--- |
 | `POST` | `/api/v1/inpainting` | Remove objects from images |
-
-### Payments & Wallet
-| Method | Endpoint | Description |
-| :--- | :--- | :--- |
-| `POST` | `/api/v1/payments/checkout` | Create Stripe checkout session |
-| `GET` | `/api/v1/payments/wallet` | Get wallet balance |
 
 ### Agent & Workflows
 | Method | Endpoint | Description |

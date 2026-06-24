@@ -22,10 +22,6 @@ class Settings(BaseSettings):
     # Database
     DATABASE_URL: str = os.getenv("DATABASE_URL", "sqlite:///./interior.db")
 
-    # Stripe Payments
-    STRIPE_SECRET_KEY: str = os.getenv("STRIPE_SECRET_KEY", "")
-    STRIPE_WEBHOOK_SECRET: str = os.getenv("STRIPE_WEBHOOK_SECRET", "")
-
     # Email (Resend)
     RESEND_API_KEY: str = os.getenv("RESEND_API_KEY", "")
 
