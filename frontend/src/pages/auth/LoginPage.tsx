@@ -1,6 +1,5 @@
 /**********************************************************************************
- * Copyright (c) 2026 AllCognix AI Technologies Pvt Limited.
- * All rights reserved.
+ * Copyright (c) 2026 Joy Biswas. All rights reserved.
  **********************************************************************************/
 
 import { useState } from 'react'

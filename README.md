@@ -323,6 +323,6 @@ docker-compose up -d
 
 ## 📄 License
 
-**© 2026 AllCognix AI Technologies Pvt Limited.** All rights reserved.
+**© 2026 Joy Biswas.** All rights reserved.
 
-Built by **Joy Biswas** — [joy@allcognix.com](mailto:joy@allcognix.com)
+Built by **Joy Biswas** — [bjoy1403@gmail.com](mailto:bjoy1403@gmail.com)
