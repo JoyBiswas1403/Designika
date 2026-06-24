@@ -1,0 +1,81 @@
+# ═══ Dependencies ═══
+node_modules/
+.pnpm-store/
+__pycache__/
+*.pyc
+.pytest_cache/
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+
+# ═══ Environment / Secrets ═══
+.env
+.env.*
+!.env.example
+
+# ═══ Database Files ═══
+*.db
+*.sqlite
+*.sqlite3
+prisma/*.db
+prisma/*.db-journal
+
+# ═══ API Keys / Certificates ═══
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+
+# ═══ Keycloak ═══
+keycloak-realm.json
+
+# ═══ Cloudflare ═══
+wrangler.toml
+
+# ═══ IDE ═══
+.vscode/
+.idea/
+*.swp
+*.swo
+*.code-workspace
+
+# ═══ OS ═══
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ═══ Logs ═══
+*.log
+logs/
+
+# ═══ Build / Output ═══
+*.tsbuildinfo
+.next/
+out/
+
+# ═══ Testing ═══
+coverage/
+.nyc_output/
+htmlcov/
+
+# ═══ Test Artifacts ═══
+model_test_output.txt
+
+# ═══ Uploads (local dev) ═══
+uploads/
+
+# ═══ Cache ═══
+.cache/
+.parcel-cache/
+
+# ═══ Vault / Docker Volumes ═══
+vault-data/
+vault-config/
+data/
+mongo-data/
+redis-data/
+milvus-data/
+neo4j-data/

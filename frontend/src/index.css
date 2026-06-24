@@ -1,0 +1,132 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-sans: 'Outfit', sans-serif;
+    --font-serif: 'Playfair Display', serif;
+
+    /* Light Mode (Premium) */
+    --bg-primary: #fdfbf7;
+    /* Warm parchment */
+    --bg-secondary: #f5f2eb;
+    /* Slightly darker warm gray */
+
+    /* Text Hierarchy - High Contrast for Readability */
+    --text-primary: #121212;
+    /* Almost black, sharp */
+    --text-secondary: #4a4a4a;
+    /* Dark gray for subtitles */
+    --text-muted: #737373;
+    /* Muted but legible */
+    --text-accent: #d97706;
+    /* Amber-600 */
+
+    /* Glass Panels - Light Mode */
+    --glass-bg: rgba(255, 255, 255, 0.7);
+    /* More opaque for better contrast */
+    --glass-border: rgba(0, 0, 0, 0.08);
+    --glass-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.08);
+
+    /* Aurora - Subtle in light mode */
+    --aurora-1: rgba(76, 29, 149, 0.03);
+    --aurora-2: rgba(217, 119, 6, 0.05);
+    --aurora-3: rgba(6, 182, 212, 0.04);
+  }
+
+  .dark {
+    /* Dark Mode (Aura) */
+    --bg-primary: #050505;
+    /* True Black */
+    --bg-secondary: #0a0a0a;
+    /* Off Black */
+
+    /* Text Hierarchy */
+    --text-primary: #ffffff;
+    --text-secondary: rgba(255, 255, 255, 0.85);
+    /* Brighter secondary */
+    --text-muted: rgba(255, 255, 255, 0.5);
+    --text-accent: #fbbf24;
+    /* Amber-400 */
+
+    /* Glass Panels - Dark Mode */
+    --glass-bg: rgba(255, 255, 255, 0.03);
+    /* Authentic glass */
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.5);
+
+    /* Aurora - Vibrant in dark mode */
+    --aurora-1: rgba(76, 29, 149, 0.15);
+    --aurora-2: rgba(217, 119, 6, 0.1);
+    --aurora-3: rgba(6, 182, 212, 0.1);
+  }
+
+  body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    @apply antialiased font-sans transition-colors duration-500;
+  }
+
+  .font-serif {
+    font-family: var(--font-serif);
+  }
+}
+
+@layer utilities {
+  .glass-panel {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+  }
+
+  /* Updated with warmer tones for human touch */
+  .aurora-bg {
+    background:
+      radial-gradient(circle at 10% 40%, var(--aurora-1), transparent 30%),
+      radial-gradient(circle at 90% 20%, var(--aurora-2), transparent 25%),
+      radial-gradient(circle at 50% 60%, var(--aurora-3), transparent 40%);
+    filter: blur(80px);
+    z-index: 0;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: var(--glass-border);
+    border-radius: 4px;
+  }
+}
+
+@layer components {
+  input[type=range] {
+    -webkit-appearance: none;
+    background: transparent;
+  }
+
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    background: #fff;
+    cursor: pointer;
+    margin-top: -6px;
+  }
+
+  input[type=range]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 4px;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+  }
+}
