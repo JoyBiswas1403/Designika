@@ -1,6 +1,5 @@
 """
 Memory Service using Mem0 for User Preference Storage.
-Connects to Milvus (Vector Store) and Neo4j (Graph Store).
 """
 from mem0 import Memory
 from config import settings
@@ -12,26 +11,9 @@ class MemoryService:
     def __init__(self):
         self.memory = None
         try:
-            # Configure Mem0 with Enterprise DBs
-            config = {
-                "vector_store": {
-                    "provider": "milvus",
-                    "config": {
-                        "uri": settings.MILVUS_URI,
-                        "collection_name": "user_memories"
-                    }
-                },
-                "graph_store": {
-                    "provider": "neo4j",
-                    "config": {
-                        "url": settings.NEO4J_URI,
-                        "username": settings.NEO4J_USER,
-                        "password": settings.NEO4J_PASSWORD
-                    }
-                }
-            }
-            self.memory = Memory.from_config(config)
-            logger.info("✅ Mem0 Memory Service Initialized")
+            # Configure Mem0 to use local SQLite/default memory storage
+            self.memory = Memory()
+            logger.info("✅ Mem0 Memory Service Initialized with default local storage")
         except Exception as e:
             logger.error(f"❌ Mem0 Initialization Failed: {e}")
     

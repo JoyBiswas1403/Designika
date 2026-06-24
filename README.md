@@ -44,7 +44,6 @@ graph TD
     User([User]) -->|HTTPS| FE[React Frontend]
 
     FE -->|REST API| BE_PY[FastAPI Backend — Python]
-    FE -->|REST API| BE_NODE[Express Backend — Node.js]
 
     subgraph "AI Engines"
         BE_PY -->|Image Generation| Replicate[Replicate AI]
@@ -56,13 +55,10 @@ graph TD
 
     subgraph "Data Layer"
         BE_PY -->|ORM| SQLite[(SQLite / PostgreSQL)]
-        BE_NODE -->|Prisma| DB2[(SQLite / PostgreSQL)]
     end
 
     subgraph "Infrastructure"
         BE_PY -->|Payments| Stripe[Stripe API]
-        BE_PY -->|Secrets| Vault[HashiCorp Vault]
-        BE_PY -->|Observability| Langfuse[Langfuse]
     end
 
     classDef ai fill:#f9f,stroke:#333,stroke-width:2px;
@@ -98,27 +94,15 @@ graph TD
 | **OpenAI SDK** | GPT-4o multimodal chat |
 | **LiteLLM** | Unified LLM gateway (OpenAI, Gemini, etc.) |
 | **CrewAI + LangGraph** | Multi-agent orchestration |
-| **Mem0** | Persistent AI memory |
+| **Mem0** | Persistent AI memory (Local) |
 | **Stripe** | Payment processing |
-| **SlowAPI** | Rate limiting |
-| **HashiCorp Vault (hvac)** | Secrets management |
-| **Langfuse** | LLM observability |
+| **SlowAPI** | Rate limiting (Local Memory) |
 | **Resend** | Transactional emails |
-
-### Backend (Node.js — Alternate)
-| Technology | Purpose |
-| :--- | :--- |
-| **Express** | Web framework |
-| **TypeScript** | Type safety |
-| **Prisma** | ORM with migrations |
-| **Sharp** | Image processing |
-| **Google Generative AI** | Gemini integration |
 
 ### Infrastructure
 | Technology | Purpose |
 | :--- | :--- |
 | **Docker + Docker Compose** | Container orchestration |
-| **Kubernetes** | Production deployment configs |
 | **Nginx** | Reverse proxy |
 | **GitHub Actions** | CI/CD workflows |
 
@@ -128,9 +112,9 @@ graph TD
 
 ```
 interior-design-ai/
-├── backend/                    # 🐍 Python FastAPI Backend (Primary)
+├── backend/                    # 🐍 Python FastAPI Backend
 │   ├── main.py                 # App entry point (v2.3.0)
-│   ├── config.py               # Centralized settings (Vault → Env fallback)
+│   ├── config.py               # Centralized settings (Environment variables)
 │   ├── database.py             # SQLAlchemy engine & session
 │   ├── models.py               # User, Design, Wallet, Transaction models
 │   ├── routers/                # API Route handlers
@@ -141,7 +125,6 @@ interior-design-ai/
 │   │   ├── design.py           #   Design CRUD
 │   │   ├── users.py            #   User profiles
 │   │   ├── agent.py            #   Agent Brain (LangGraph)
-│   │   ├── workflow.py         #   Temporal workflows
 │   │   ├── payments.py         #   Stripe payments
 │   │   └── assistant.py        #   AI Assistant (26K LOC)
 │   ├── services/               # Business Logic
@@ -154,25 +137,9 @@ interior-design-ai/
 │   │   ├── email_service.py    #   Resend emails
 │   │   └── storage.py          #   File uploads
 │   ├── utils/                  # Clients & Helpers
-│   │   ├── security.py         #   JWT + password hashing
-│   │   ├── vault_client.py     #   HashiCorp Vault
-│   │   ├── redis_client.py     #   Redis cache
-│   │   ├── mongo_client.py     #   MongoDB
-│   │   ├── milvus_client.py    #   Vector DB
-│   │   ├── neo4j_client.py     #   Graph DB
-│   │   ├── langfuse_client.py  #   LLM observability
-│   │   └── temporal_client.py  #   Workflow engine
+│   │   └── security.py         #   JWT + password hashing
 │   ├── middleware/             # Rate limiting
 │   └── requirements.txt        # Python dependencies
-│
-├── backend_node/               # 📦 Node.js Express Backend (Alternate)
-│   ├── src/
-│   │   ├── controllers/        #   REST API handlers
-│   │   ├── routes/             #   API routes
-│   │   ├── services/           #   AI + business logic
-│   │   ├── middleware/         #   Auth & upload
-│   │   └── index.ts            #   Entry point
-│   └── prisma/                 #   Database schema
 │
 ├── frontend/                   # ⚛️ React TypeScript Frontend
 │   ├── src/
@@ -199,8 +166,6 @@ interior-design-ai/
 │   └── vite.config.ts
 │
 ├── docs/                       # 📚 Documentation
-├── infra/                      # 🏗️ Infrastructure configs
-├── k8s/                        # ☸️ Kubernetes manifests
 ├── .github/workflows/          # 🔄 CI/CD pipelines
 ├── docker-compose.yml          # 🐳 Docker orchestration
 └── .gitignore                  # 🔒 Security-hardened ignore rules
@@ -316,7 +281,6 @@ NODE_ENV=development
 | Method | Endpoint | Description |
 | :--- | :--- | :--- |
 | `POST` | `/api/v1/agent/run` | Run agent pipeline |
-| `POST` | `/api/v1/workflows` | Trigger workflow |
 
 ---
 
@@ -359,8 +323,7 @@ NODE_ENV=development
 - `.gitignore` blocks all `.env*` files, database files, certificates, and secrets
 - Passwords hashed with **bcrypt** via passlib
 - JWT tokens for stateless authentication
-- Rate limiting via **SlowAPI**
-- Optional **HashiCorp Vault** integration for production secrets
+- Rate limiting via **SlowAPI** (In-Memory)
 
 ---
 
@@ -369,9 +332,6 @@ NODE_ENV=development
 ```bash
 # Development
 docker-compose up -d
-
-# Production (with all services)
-docker-compose -f docker-compose.enterprise.yml up -d
 ```
 
 ---

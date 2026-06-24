@@ -11,18 +11,12 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-# Initialize rate limiter with Redis storage (falls back to memory if Redis unavailable)
-try:
-    from slowapi.middleware import SlowAPIMiddleware
-    limiter = Limiter(
-        key_func=get_remote_address,
-        storage_uri=settings.REDIS_URL,
-        default_limits=["200 per day", "50 per hour"]
-    )
-    logger.info("✅ Rate Limiter initialized with Redis backend")
-except Exception as e:
-    logger.warning(f"Redis not available for rate limiting, using memory: {e}")
-    limiter = Limiter(key_func=get_remote_address, default_limits=["200 per day", "50 per hour"])
+# Initialize rate limiter with local memory storage
+limiter = Limiter(
+    key_func=get_remote_address,
+    default_limits=["200 per day", "50 per hour"]
+)
+logger.info("✅ Rate Limiter initialized with in-memory storage")
 
 
 # Rate limit configurations by endpoint type

@@ -5,7 +5,7 @@ from slowapi.errors import RateLimitExceeded
 from dotenv import load_dotenv
 import os
 
-from routers import transform, chat, inpainting, design, auth, users, agent, workflow, payments, assistant
+from routers import transform, chat, inpainting, design, auth, users, agent, payments, assistant
 from middleware.rate_limiter import limiter
 
 # Load environment variables
@@ -42,7 +42,6 @@ app.include_router(inpainting.router, prefix="/api/v1/inpainting", tags=["Inpain
 app.include_router(auth.router, prefix="/api/v1/auth", tags=["Auth"]) 
 app.include_router(users.router, prefix="/api/v1/users", tags=["Users"])
 app.include_router(agent.router, prefix="/api/v1/agent", tags=["Agent Brain"])
-app.include_router(workflow.router, prefix="/api/v1/workflows", tags=["Temporal Workflows"])
 app.include_router(payments.router, prefix="/api/v1/payments", tags=["Payments"]) 
 app.include_router(assistant.router, prefix="/api/v1/assistant", tags=["AI Assistant"])
 
